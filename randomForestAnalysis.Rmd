@@ -1,0 +1,27 @@
+
+### graph is pretty self explanatory
+```{r}
+hist(treesize(rf),
+     main = "No. of Nodes for the Trees",
+     col = "green")
+```
+### error rate of random forest
+```{r}
+plot(rf)
+```
+### mfcc2 is the most important attribute followed by mfcc1
+```{r}
+varImpPlot(rf, n.var = 7,main = "Variable Importance")
+importance(rf)
+```
+### Partial dependence plot gives a graphical depiction of the marginal effect of a variable on the class probability (classification)
+```{r}
+partialPlot(rf, train, sfms, "kick")
+```
+#### if the sfm is less than ~0.3, higher chances of classifying into kick class.
+
+
+### Plot the scaling coordinates of the proximity matrix from randomForest
+```{r}
+MDSplot(rf, train$class_list)
+```

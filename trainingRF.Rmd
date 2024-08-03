@@ -1,0 +1,37 @@
+
+
+### create the random forest using the R randomForest package:
+```{r}
+rf <- randomForest(class_list~., data=train, proximity=TRUE, ntree=150)
+print(rf)
+
+```
+
+### Use newly created random forest to classify its own training data. Resulting accuracy should be 100%
+```{r}
+p1 <- predict(rf, train)
+confusionMatrix(p1, train$ class_list)
+
+```
+
+### classify test data and generate confusion matrix
+```{r}
+p2 <- predict(rf, test)
+confusionMatrix(p2, test$ class_list)
+```
+
+### randomForest's tuneRF function to explore different ntree values
+```{r}
+t <- tuneRF(train[,-4], train[,4],
+       stepFactor = 5,
+       plot = TRUE,
+       ntreeTry = 50,
+       trace = TRUE,
+       doBest=TRUE,
+       improve = 0.01)
+
+p3 <- predict(t, test)
+confusionMatrix(p3, test$ class_list)
+```
+
+#### played around with this function a little bit, it didn't seem to be very helpful given that the tuning method has no patience for anything besides an decrease in error.
